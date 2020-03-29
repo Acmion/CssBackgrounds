@@ -1,0 +1,78 @@
+$bg-width: 100;
+$bg-height: 100;
+
+$bg-width-unit: "vw";
+$bg-height-unit: "vh";
+
+$bg-width-with-unit: #{($bg-width + $bg-width-unit)};
+$bg-height-with-unit: #{($bg-height + $bg-height-unit)};
+
+$star-layer-count: 3;
+$star-layer-sizes: 0.3rem, 0.2rem, 0.1rem;
+$star-layer-durations: 60s, 100s, 140s;
+$star-layer-opacities: 0.7, 0.6, 0.5;
+$star-layer-star-counts: 40, 40, 100;
+$star-colors: rgba(200, 200, 255), white, rgba(255, 200, 200);
+
+#space
+{
+    width: 100%;
+    height: $bg-height-with-unit;
+    position: relative;
+    overflow: hidden;
+    
+    background: radial-gradient(ellipse at top, rgba(5, 5, 10, 0.6) 0%, transparent 80%);
+}
+
+@for $i from 1 through $star-layer-count
+{
+    $selector: "#space" + " > " + ".stars:nth-child(" + #{$i} + ")";
+
+    #{$selector}
+    {
+        width: nth($star-layer-sizes, $i);
+        height: nth($star-layer-sizes, $i);
+        opacity: nth($star-layer-opacities, $i);
+
+        $box-shadow-value: "";
+        @for $j from 1 through nth($star-layer-star-counts, $i)
+        {
+            $x-offset: random($bg-width);
+            $y-offset: random($bg-height);
+            $y-offset-plus-height: $y-offset + $bg-height;
+
+            $box-shadow-value: $box-shadow-value + 
+                               $x-offset + $bg-width-unit + " " + 
+                               $y-offset + $bg-height-unit + " " + 
+                               nth($star-colors, random(length($star-colors)));
+
+            $box-shadow-value: $box-shadow-value + ", ";
+
+            $box-shadow-value: $box-shadow-value + 
+                               $x-offset + $bg-width-unit + " " + 
+                               $y-offset-plus-height + $bg-height-unit + " " + 
+                               nth($star-colors, random(length($star-colors)));
+
+
+            @if $j < nth($star-layer-star-counts, $i)
+            {
+                $box-shadow-value: $box-shadow-value + ", ";
+            }
+        }
+
+        box-shadow: #{$box-shadow-value};
+        animation: star-animation nth($star-layer-durations, $i) linear infinite;
+    }
+}
+
+@keyframes star-animation 
+{
+    from 
+    {
+        transform: translateY(0);
+    }
+    to 
+    {
+        transform: translateY(-$bg-height-with-unit);
+    }
+}
