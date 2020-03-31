@@ -14,7 +14,7 @@ $star-layer-opacities: 0.7, 0.6, 0.5;
 $star-layer-star-counts: 40, 40, 100;
 $star-colors: rgba(200, 200, 255), white, rgba(255, 200, 200);
 
-#space
+.cb-space
 {
     width: 100%;
     height: $bg-height-with-unit;
@@ -26,7 +26,7 @@ $star-colors: rgba(200, 200, 255), white, rgba(255, 200, 200);
 
 @for $i from 1 through $star-layer-count
 {
-    $selector: "#space" + " > " + ".stars:nth-child(" + #{$i} + ")";
+    $selector: ".cb-space" + " > " + ".cb-stars:nth-child(" + #{$i} + ")";
 
     #{$selector}
     {
