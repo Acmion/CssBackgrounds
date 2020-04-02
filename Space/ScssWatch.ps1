@@ -1,1 +1,1 @@
-sass --watch SpaceSource.scss:Space.css
+sass --watch SpaceSource.scss:Space.css --style compressed

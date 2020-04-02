@@ -11,8 +11,16 @@ $star-layer-count: 3;
 $star-layer-sizes: 0.3rem, 0.2rem, 0.1rem;
 $star-layer-durations: 60s, 100s, 140s;
 $star-layer-opacities: 0.7, 0.6, 0.5;
-$star-layer-star-counts: 40, 40, 100;
+$star-layer-star-counts: 50, 80, 150;
 $star-colors: rgba(200, 200, 255), white, rgba(255, 200, 200);
+
+$stripe-count: 10;
+$stripe-spacing: 8rem;
+$stripe-rotation: 30deg;
+$stripe-border-top-width-before: 400rem;
+$stripe-border-top-width-after: 320rem;
+$stripe-border-side-width: 10rem;
+$stripe-border-color: rgba(49, 49, 142, 0.08);
 
 .cb-space
 {
@@ -21,7 +29,58 @@ $star-colors: rgba(200, 200, 255), white, rgba(255, 200, 200);
     position: relative;
     overflow: hidden;
     
-    background: radial-gradient(ellipse at top, rgba(5, 5, 10, 0.6) 0%, transparent 80%);
+    background: radial-gradient(ellipse at center, rgba(10, 10, 30, 0.8) 0%, transparent 80%);
+}
+
+.cb-stripes
+{
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.cb-stripe
+{
+    display: none;
+    position: relative;
+
+    &::before,
+    &::after
+    {
+        top: 50vh;
+        left: 50%;
+
+        border-right: $stripe-border-side-width solid transparent;
+        border-left: $stripe-border-side-width solid transparent;
+
+        content: "";
+        position: absolute;
+        transform: translate(-50%, -50%) rotate($stripe-rotation);
+    }
+
+    &::before
+    {
+        border-top: $stripe-border-top-width-before solid $stripe-border-color;
+    }
+
+    &::after
+    {
+        border-top: $stripe-border-top-width-after solid $stripe-border-color;
+        border-bottom: ($stripe-border-top-width-before - $stripe-border-top-width-after) solid transparent;
+    }
+}
+
+
+@for $i from 1 through $stripe-count
+{
+    .cb-stripe:nth-child(#{$i})
+    {
+        display: block;
+        left: -1 * $stripe-spacing * ($stripe-count - 1) + $stripe-spacing * 2 * ($i - 1);
+    }
 }
 
 @for $i from 1 through $star-layer-count
